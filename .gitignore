@@ -1,0 +1,81 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Logs
+*.log
+
+# Node
+node_modules/
+.pnpm-store/
+
+# Compiled output
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Angular / TypeScript
+**/.angular/cache/
+.sass-cache/
+coverage/
+typings/
+connect.lock
+*.tsbuildinfo
+
+# .NET build output
+[Bb]in/
+[Oo]bj/
+artifacts/
+[Pp]ublish/
+TestResults/
+*.binlog
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Local databases (SQLite, SQL Server LocalDB)
+*.db
+*.db-shm
+*.db-wal
+*.mdf
+*.ldf
+*.ndf
+
+# Secrets and local-only config
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+appsettings.*.Local.json
+
+# Visual Studio
+.vs/
+*.vsidx
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+**/.vscode/*
+!**/.vscode/settings.json
+!**/.vscode/tasks.json
+!**/.vscode/launch.json
+!**/.vscode/extensions.json
+**/.history/
+
+# Claude Code (per-developer local settings)
+**/.claude/settings.local.json
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# System files
+.DS_Store
+Thumbs.db
