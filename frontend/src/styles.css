@@ -1,0 +1,17 @@
+/* Порядок слоёв: утилиты Tailwind должны перебивать стили компонентов PrimeNG.
+   Объявление обязано идти до импорта Tailwind — порядок слоёв задаёт первое упоминание. */
+@layer theme, base, primeng, components, utilities;
+
+@import "tailwindcss";
+
+@source "./app";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}

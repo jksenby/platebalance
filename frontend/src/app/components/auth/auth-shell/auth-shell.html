@@ -1,0 +1,72 @@
+<div class="min-h-dvh bg-slate-50 text-slate-900 lg:grid lg:grid-cols-2 dark:bg-slate-950 dark:text-slate-100">
+  <!-- ── Брендовая половина (только на больших экранах) ─────────────── -->
+  <aside class="relative hidden overflow-hidden px-14 py-12 text-white lg:flex lg:flex-col lg:justify-between">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(125%_95%_at_8%_0%,#34d399_0%,#059669_34%,#065f46_68%,#022c22_100%)]"></div>
+    <div class="pointer-events-none absolute -top-16 -right-24 size-[26rem] rounded-full bg-lime-200/25 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-32 -left-24 size-[30rem] rounded-full bg-teal-300/20 blur-3xl"></div>
+    <div
+      class="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:46px_46px]"
+    ></div>
+
+    <a routerLink="/" class="relative inline-flex w-fit items-center gap-3">
+      <span class="grid size-11 place-items-center rounded-2xl bg-white/15 ring-1 ring-white/25 backdrop-blur-sm">
+        <i class="pi pi-chart-pie text-lg text-lime-200"></i>
+      </span>
+      <span class="text-lg font-semibold tracking-tight">PlateBalance</span>
+    </a>
+
+    <div class="relative max-w-md py-12">
+      <h2 class="text-[2.05rem] leading-[1.15] font-semibold tracking-tight text-balance">
+        Сбалансированная тарелка без лишних подсчётов
+      </h2>
+      <p class="mt-4 text-[0.95rem] leading-relaxed text-emerald-50/80">
+        Опросник, персональные нормы БЖУ и понятная динамика — всё в одном месте.
+      </p>
+
+      <ul class="mt-10 space-y-6">
+        @for (feature of features; track feature.icon) {
+          <li class="flex gap-4">
+            <span class="mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl bg-white/12 text-lime-200 ring-1 ring-white/20">
+              <i [class]="feature.icon"></i>
+            </span>
+            <div>
+              <p class="text-sm font-medium">{{ feature.title }}</p>
+              <p class="mt-0.5 text-sm leading-relaxed text-emerald-50/70">{{ feature.text }}</p>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="relative flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/15 pt-7 text-xs text-emerald-50/75">
+      <span class="inline-flex items-center gap-2">
+        <i class="pi pi-shield text-sm text-lime-200"></i>
+        Данные под защитой
+      </span>
+      <span class="inline-flex items-center gap-2">
+        <i class="pi pi-bolt text-sm text-lime-200"></i>
+        Настройка за 2 минуты
+      </span>
+    </div>
+  </aside>
+
+  <!-- ── Половина с формой ──────────────────────────────────────────── -->
+  <main class="flex items-center justify-center px-5 py-12 sm:px-8">
+    <div class="w-full max-w-[26.5rem]">
+      <a routerLink="/" class="mb-9 flex items-center justify-center gap-3 lg:hidden">
+        <span class="grid size-10 place-items-center rounded-xl bg-emerald-600 shadow-sm shadow-emerald-600/30">
+          <i class="pi pi-chart-pie text-base text-white"></i>
+        </span>
+        <span class="text-lg font-semibold tracking-tight">PlateBalance</span>
+      </a>
+
+      <div
+        class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_16px_40px_-16px_rgba(15,23,42,0.15)] sm:p-8 dark:border-slate-800 dark:bg-slate-900 dark:shadow-none"
+      >
+        <ng-content />
+      </div>
+
+      <p class="mt-8 text-center text-xs text-slate-400 dark:text-slate-500">© {{ year }} PlateBalance</p>
+    </div>
+  </main>
+</div>
