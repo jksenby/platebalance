@@ -1,32 +1,20 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DividerModule } from 'primeng/divider';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { finalize } from 'rxjs/operators';
 
 import { AuthShell } from '../auth-shell/auth-shell';
 import { AuthService } from '../../services/auth.service';
-import { MessageService } from 'primeng/api';
-import { finalize } from 'rxjs/internal/operators/finalize';
 
-type RegistrationField = 'name' | 'email' | 'password' | 'confirmPassword' | 'terms';
+type RegistrationField = 'name' | 'email' | 'password' | 'confirmPassword';
 
 @Component({
   selector: 'app-registration',
-  imports: [
-    ReactiveFormsModule,
-    RouterLink,
-    AuthShell,
-    ButtonModule,
-    CheckboxModule,
-    DividerModule,
-    InputTextModule,
-    ToastModule
-  ],
+  imports: [ReactiveFormsModule, RouterLink, AuthShell, ButtonModule, InputTextModule, ToastModule],
   providers: [MessageService],
   templateUrl: './registration.html',
   styleUrl: './registration.scss',
@@ -44,49 +32,12 @@ export class Registration {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
-      terms: [false, Validators.requiredTrue],
     },
     { validators: passwordsMatch },
   );
 
   protected readonly submitted = signal(false);
-  protected readonly showPassword = signal(false);
   protected readonly loading = signal(false);
-
-  private readonly password = toSignal(this.registrationForm.controls.password.valueChanges, {
-    initialValue: '',
-  });
-
-  /** Оценка надёжности пароля: 0 — пусто, 3 — сильный. Только для индикатора. */
-  protected readonly strength = computed(() => {
-    const value = this.password();
-    if (!value) {
-      return 0;
-    }
-
-    const checks = [
-      value.length >= 8,
-      value.length >= 12,
-      /[A-ZА-Я]/.test(value) && /[a-zа-я]/.test(value),
-      /\d/.test(value),
-      /[^\w\s]/.test(value),
-    ].filter(Boolean).length;
-
-    return Math.min(3, Math.max(1, checks - 1));
-  });
-
-  protected readonly strengthLabel = computed(
-    () => ['', 'слабый', 'средний', 'надёжный'][this.strength()],
-  );
-
-  /** Цвет одного сегмента индикатора: закрашен, только если попадает в текущую оценку. */
-  protected strengthBarClass(bar: number): string {
-    if (bar > this.strength()) {
-      return 'bg-slate-200 dark:bg-slate-700';
-    }
-
-    return ['', 'bg-red-400', 'bg-amber-400', 'bg-emerald-500'][this.strength()];
-  }
 
   protected isInvalid(field: RegistrationField): boolean {
     const control: AbstractControl = this.registrationForm.controls[field];
@@ -103,10 +54,6 @@ export class Registration {
     );
   }
 
-  protected togglePassword(): void {
-    this.showPassword.update((visible) => !visible);
-  }
-
   protected onSubmit(): void {
     this.submitted.set(true);
 
@@ -116,21 +63,21 @@ export class Registration {
     }
 
     const { name, email, password } = this.registrationForm.getRawValue();
+    this.loading.set(true);
 
-    this.authService.register({ firstName: name, email, password })
-    .pipe(
-      finalize(() => this.loading.set(false))
-    )
-    .subscribe({
-      next: (response) => {
-        this.messageService.add({ severity: 'success', summary: response.message });
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        console.error('Registration error:', err);
-        this.messageService.add({ severity: 'error', summary: err.error.message });
-      }
-    });
+    this.authService
+      .register({ firstName: name, email, password })
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: (response) => {
+          this.messageService.add({ severity: 'success', summary: response.message });
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.error('Registration error:', err);
+          this.messageService.add({ severity: 'error', summary: err.error.message });
+        },
+      });
   }
 }
 

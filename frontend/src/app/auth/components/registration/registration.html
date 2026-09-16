@@ -1,34 +1,21 @@
 <p-toast />
 <app-auth-shell>
-  <header class="mb-7">
-    <h1 class="text-2xl font-semibold tracking-tight">Создать аккаунт</h1>
-    <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-      Пара минут — и у вас персональные нормы по калориям и БЖУ
-    </p>
-  </header>
+  <h1 class="text-xl font-semibold">Создать аккаунт</h1>
 
-  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="space-y-5" novalidate>
-    <!-- Имя -->
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="mt-6 space-y-4" novalidate>
     <div>
-      <label for="name" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-        Как вас зовут
-      </label>
-      <div class="relative">
-        <i class="pi pi-user pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-slate-400 dark:text-slate-500"></i>
-        <input
-          pInputText
-          id="name"
-          type="text"
-          formControlName="name"
-          autocomplete="name"
-          placeholder="Алия"
-          [invalid]="isInvalid('name')"
-          class="w-full rounded-xl py-2.5 pr-4 pl-11 text-sm"
-        />
-      </div>
+      <label for="name" class="mb-1.5 block text-sm font-medium">Имя</label>
+      <input
+        pInputText
+        id="name"
+        type="text"
+        formControlName="name"
+        autocomplete="name"
+        [invalid]="isInvalid('name')"
+        class="w-full text-sm"
+      />
       @if (isInvalid('name')) {
-        <p class="mt-1.5 flex items-center gap-1.5 text-xs text-red-500 dark:text-red-400">
-          <i class="pi pi-exclamation-circle text-[0.7rem]"></i>
+        <p class="mt-1.5 text-xs text-red-500">
           @if (registrationForm.controls.name.hasError('required')) {
             Укажите имя
           } @else {
@@ -38,27 +25,19 @@
       }
     </div>
 
-    <!-- Email -->
     <div>
-      <label for="email" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-        Email
-      </label>
-      <div class="relative">
-        <i class="pi pi-envelope pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-slate-400 dark:text-slate-500"></i>
-        <input
-          pInputText
-          id="email"
-          type="email"
-          formControlName="email"
-          autocomplete="email"
-          placeholder="you@example.com"
-          [invalid]="isInvalid('email')"
-          class="w-full rounded-xl py-2.5 pr-4 pl-11 text-sm"
-        />
-      </div>
+      <label for="email" class="mb-1.5 block text-sm font-medium">Email</label>
+      <input
+        pInputText
+        id="email"
+        type="email"
+        formControlName="email"
+        autocomplete="email"
+        [invalid]="isInvalid('email')"
+        class="w-full text-sm"
+      />
       @if (isInvalid('email')) {
-        <p class="mt-1.5 flex items-center gap-1.5 text-xs text-red-500 dark:text-red-400">
-          <i class="pi pi-exclamation-circle text-[0.7rem]"></i>
+        <p class="mt-1.5 text-xs text-red-500">
           @if (registrationForm.controls.email.hasError('required')) {
             Укажите email
           } @else {
@@ -68,50 +47,19 @@
       }
     </div>
 
-    <!-- Пароль -->
     <div>
-      <label for="password" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-        Пароль
-      </label>
-      <div class="relative">
-        <i class="pi pi-lock pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-slate-400 dark:text-slate-500"></i>
-        <input
-          pInputText
-          id="password"
-          [type]="showPassword() ? 'text' : 'password'"
-          formControlName="password"
-          autocomplete="new-password"
-          placeholder="Минимум 8 символов"
-          [invalid]="isInvalid('password')"
-          class="w-full rounded-xl py-2.5 pr-12 pl-11 text-sm"
-        />
-        <button
-          type="button"
-          (click)="togglePassword()"
-          [attr.aria-label]="showPassword() ? 'Скрыть пароль' : 'Показать пароль'"
-          class="absolute top-1/2 right-2 grid size-8 -translate-y-1/2 place-items-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-300"
-        >
-          <i [class]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
-        </button>
-      </div>
-
-      <!-- Индикатор надёжности -->
-      @if (strength() > 0) {
-        <div class="mt-2 flex items-center gap-2">
-          <div class="flex flex-1 gap-1">
-            @for (bar of [1, 2, 3]; track bar) {
-              <span class="h-1 flex-1 rounded-full transition-colors" [class]="strengthBarClass(bar)"></span>
-            }
-          </div>
-          <span class="w-16 text-right text-[0.7rem] text-slate-400 dark:text-slate-500">
-            {{ strengthLabel() }}
-          </span>
-        </div>
-      }
-
+      <label for="password" class="mb-1.5 block text-sm font-medium">Пароль</label>
+      <input
+        pInputText
+        id="password"
+        type="password"
+        formControlName="password"
+        autocomplete="new-password"
+        [invalid]="isInvalid('password')"
+        class="w-full text-sm"
+      />
       @if (isInvalid('password')) {
-        <p class="mt-1.5 flex items-center gap-1.5 text-xs text-red-500 dark:text-red-400">
-          <i class="pi pi-exclamation-circle text-[0.7rem]"></i>
+        <p class="mt-1.5 text-xs text-red-500">
           @if (registrationForm.controls.password.hasError('required')) {
             Придумайте пароль
           } @else {
@@ -121,105 +69,30 @@
       }
     </div>
 
-    <!-- Подтверждение пароля -->
     <div>
-      <label for="confirmPassword" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-        Повторите пароль
-      </label>
-      <div class="relative">
-        <i class="pi pi-lock pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-slate-400 dark:text-slate-500"></i>
-        <input
-          pInputText
-          id="confirmPassword"
-          [type]="showPassword() ? 'text' : 'password'"
-          formControlName="confirmPassword"
-          autocomplete="new-password"
-          placeholder="••••••••"
-          [invalid]="isInvalid('confirmPassword') || mismatch"
-          class="w-full rounded-xl py-2.5 pr-4 pl-11 text-sm"
-        />
-      </div>
+      <label for="confirmPassword" class="mb-1.5 block text-sm font-medium">Повторите пароль</label>
+      <input
+        pInputText
+        id="confirmPassword"
+        type="password"
+        formControlName="confirmPassword"
+        autocomplete="new-password"
+        [invalid]="isInvalid('confirmPassword') || mismatch"
+        class="w-full text-sm"
+      />
       @if (isInvalid('confirmPassword')) {
-        <p class="mt-1.5 flex items-center gap-1.5 text-xs text-red-500 dark:text-red-400">
-          <i class="pi pi-exclamation-circle text-[0.7rem]"></i>
-          Повторите пароль
-        </p>
+        <p class="mt-1.5 text-xs text-red-500">Повторите пароль</p>
       } @else if (mismatch) {
-        <p class="mt-1.5 flex items-center gap-1.5 text-xs text-red-500 dark:text-red-400">
-          <i class="pi pi-exclamation-circle text-[0.7rem]"></i>
-          Пароли не совпадают
-        </p>
+        <p class="mt-1.5 text-xs text-red-500">Пароли не совпадают</p>
       }
     </div>
 
-    <!-- Согласие -->
-    <div>
-      <div class="flex items-start gap-2.5">
-        <p-checkbox inputId="terms" formControlName="terms" [binary]="true" [invalid]="isInvalid('terms')" />
-        <label for="terms" class="cursor-pointer text-sm leading-relaxed text-slate-600 select-none dark:text-slate-400">
-          Соглашаюсь с
-          <!-- TODO: подставить ссылки на документы -->
-          <button type="button" class="font-medium text-emerald-700 hover:underline dark:text-emerald-400">
-            условиями использования
-          </button>
-          и
-          <button type="button" class="font-medium text-emerald-700 hover:underline dark:text-emerald-400">
-            политикой конфиденциальности
-          </button>
-        </label>
-      </div>
-      @if (isInvalid('terms')) {
-        <p class="mt-1.5 flex items-center gap-1.5 text-xs text-red-500 dark:text-red-400">
-          <i class="pi pi-exclamation-circle text-[0.7rem]"></i>
-          Без согласия продолжить нельзя
-        </p>
-      }
-    </div>
-
-    <button
-      pButton
-      type="submit"
-      [loading]="loading()"
-      class="w-full justify-center rounded-xl py-2.5 text-sm font-semibold"
-    >
-      <i pButtonIcon class="pi pi-user-plus"></i>
-      <span pButtonLabel>Создать аккаунт</span>
-    </button>
+    <button pButton type="submit" label="Создать аккаунт" [loading]="loading()" class="w-full"></button>
   </form>
 
-  <p-divider align="center" styleClass="my-7">
-    <span class="px-1 text-xs text-slate-400 dark:text-slate-500">или зарегистрируйтесь через</span>
-  </p-divider>
-
-  <div class="grid grid-cols-2 gap-3">
-    <button
-      pButton
-      type="button"
-      severity="secondary"
-      [outlined]="true"
-      class="w-full justify-center rounded-xl py-2.5 text-sm font-medium"
-    >
-      <i pButtonIcon class="pi pi-google"></i>
-      <span pButtonLabel>Google</span>
-    </button>
-    <button
-      pButton
-      type="button"
-      severity="secondary"
-      [outlined]="true"
-      class="w-full justify-center rounded-xl py-2.5 text-sm font-medium"
-    >
-      <i pButtonIcon class="pi pi-apple"></i>
-      <span pButtonLabel>Apple</span>
-    </button>
-  </div>
-
-  <p class="mt-7 text-center text-sm text-slate-500 dark:text-slate-400">
+  <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
     Уже есть аккаунт?
-    <a
-      routerLink="/login"
-      class="font-semibold text-emerald-700 transition-colors hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
-    >
+    <a routerLink="/login" class="font-medium text-emerald-700 hover:underline dark:text-emerald-400">
       Войти
     </a>
   </p>
