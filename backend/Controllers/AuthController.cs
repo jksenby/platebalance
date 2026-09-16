@@ -7,7 +7,6 @@ namespace PlateBalance.Api.Controllers
 {
     [ApiController]
     [Route("auth")]
-    [Authorize]
     public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
@@ -18,6 +17,7 @@ namespace PlateBalance.Api.Controllers
             _signInManager = signInManager;
         }
 
+        [Authorize]
         [HttpGet("me")]
         public async Task<IActionResult> GetCurrentUser()
         {
@@ -26,18 +26,28 @@ namespace PlateBalance.Api.Controllers
             return Ok(new
             {
                 user.Email,
-                user.Id
+                user.Id,
+                user.FirstName
             });
         }
 
+        [Authorize]
         [HttpPost("logout")]
-        public async Task<IActionResult> Logout()
+        public async Task<ActionResult<BaseResponse>> Logout()
         {
-            await _signInManager.SignOutAsync();
-            return Ok();
+            try
+            {
+                await _signInManager.SignOutAsync();
+                return Ok(new BaseResponse { Message = "User logged out successfully!", Success = true });
+            } 
+            catch
+            {
+                return BadRequest(new BaseResponse { Message = "Error logging out user.", Success = false });
+            }
         }
+
         [HttpPost("register")]
-        public async Task<IActionResult> Register(
+        public async Task<ActionResult<RegisterResponse>> Register(
             [FromBody] RegisterRequestDto request,
             UserManager<User> userManager)
         {
@@ -45,7 +55,7 @@ namespace PlateBalance.Api.Controllers
                 string.IsNullOrWhiteSpace(request.Password) ||
                 string.IsNullOrWhiteSpace(request.FirstName))
             {
-                return BadRequest("All fields are required.");
+                return BadRequest(new RegisterResponse { Message = "All fields are required.", Success = false });
             }
             var user = new User
             {
@@ -58,12 +68,13 @@ namespace PlateBalance.Api.Controllers
 
             if(!result.Succeeded) 
             {
-                return BadRequest(result.Errors);
+                return BadRequest(new RegisterResponse { Message = string.Join("; ", result.Errors.Select(e => e.Description)), Success = false });
             }
-            return Ok(new
+            return Ok(new RegisterResponse
             {
-                userId = user.Id,
-                Message = "User registered successfully!"
+                UserId = user.Id,
+                Message = "User registered successfully!",
+                Success = true
             });
         }
     }

@@ -10,6 +10,18 @@ var connectionString = builder.Configuration.GetConnectionString("AppDb")
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontendApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        });
+});
+
 builder.Services.AddControllers(options =>
 {
     options.Conventions.Add(new ApiPrefixConvention("api"));
@@ -21,6 +33,25 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.HttpOnly = true;
+
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return Task.CompletedTask;
+    };
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+        return Task.CompletedTask;
+    };
+});
+
 
 var app = builder.Build();
 
@@ -42,10 +73,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+app.UseCors("AllowFrontendApp");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGroup("/api/auth").WithTags("Auth").MapIdentityApi<User>();
+app.MapGroup("/api/identity").WithTags("Identity").MapIdentityApi<User>();
 
 app.MapControllers();
 

@@ -1,24 +1,19 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './guards/auth-guard';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
     {
-        path: 'profile',
-        loadComponent: () => import('./components/main/profile/profile').then(m => m.Profile),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'survey',
-        loadComponent: () => import('./components/main/survey/survey').then(m => m.Survey),
-        canActivate: [authGuard]
-    },
-    {
         path: 'login',
-        loadComponent: () => import('./components/auth/login/login').then(m => m.Login)
+        loadComponent: () => import('./auth/components/login/login').then(m => m.Login)
     },
     {
         path: 'registration',
-        loadComponent: () => import('./components/auth/registration/registration').then(m => m.Registration)
+        loadComponent: () => import('./auth/components/registration/registration').then(m => m.Registration)
+    },
+    {
+        path: 'profile',
+        loadComponent: () => import('./profile/components/main/main').then(m => m.Main),
+        canActivate: [authGuard]
     },
     {
         path: '',

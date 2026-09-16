@@ -1,13 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
 import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
 
 import { AuthShell } from '../auth-shell/auth-shell';
+import { AuthService } from '../../services/auth.service';
+import { MessageService } from 'primeng/api';
+import { finalize } from 'rxjs/internal/operators/finalize';
 
 type RegistrationField = 'name' | 'email' | 'password' | 'confirmPassword' | 'terms';
 
@@ -21,13 +25,18 @@ type RegistrationField = 'name' | 'email' | 'password' | 'confirmPassword' | 'te
     CheckboxModule,
     DividerModule,
     InputTextModule,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './registration.html',
   styleUrl: './registration.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Registration {
   private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly messageService = inject(MessageService);
+  private readonly router = inject(Router);
 
   protected readonly registrationForm = this.fb.nonNullable.group(
     {
@@ -106,7 +115,22 @@ export class Registration {
       return;
     }
 
-    // TODO: вызов сервиса регистрации
+    const { name, email, password } = this.registrationForm.getRawValue();
+
+    this.authService.register({ firstName: name, email, password })
+    .pipe(
+      finalize(() => this.loading.set(false))
+    )
+    .subscribe({
+      next: (response) => {
+        this.messageService.add({ severity: 'success', summary: response.message });
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Registration error:', err);
+        this.messageService.add({ severity: 'error', summary: err.error.message });
+      }
+    });
   }
 }
 
