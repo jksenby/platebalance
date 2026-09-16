@@ -7,20 +7,20 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { finalize } from 'rxjs/operators';
 
-import { AuthShell } from '../auth-shell/auth-shell';
+import { AuthShellComponent } from '../../components/auth-shell/auth-shell.component';
 import { AuthService } from '../../services/auth.service';
 
 type RegistrationField = 'name' | 'email' | 'password' | 'confirmPassword';
 
 @Component({
   selector: 'app-registration',
-  imports: [ReactiveFormsModule, RouterLink, AuthShell, ButtonModule, InputTextModule, ToastModule],
+  imports: [ReactiveFormsModule, RouterLink, AuthShellComponent, ButtonModule, InputTextModule, ToastModule],
   providers: [MessageService],
-  templateUrl: './registration.html',
-  styleUrl: './registration.scss',
+  templateUrl: './registration.component.html',
+  styleUrl: './registration.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Registration {
+export class RegistrationComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly messageService = inject(MessageService);

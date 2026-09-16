@@ -1,4 +1,4 @@
-import { BaseResponse } from '../../core/models/base.model';
+import { BaseResponse } from '../../../core/models/base.model';
 
 export interface RegisterResponse extends BaseResponse {
     userId: string;

@@ -5,8 +5,8 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-auth-shell',
   imports: [RouterLink],
-  templateUrl: './auth-shell.html',
-  styleUrl: './auth-shell.scss',
+  templateUrl: './auth-shell.component.html',
+  styleUrl: './auth-shell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuthShell {}
+export class AuthShellComponent {}

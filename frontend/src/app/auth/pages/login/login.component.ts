@@ -7,18 +7,18 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { finalize } from 'rxjs/operators';
 
-import { AuthShell } from '../auth-shell/auth-shell';
+import { AuthShellComponent } from '../../components/auth-shell/auth-shell.component';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink, AuthShell, ButtonModule, InputTextModule, ToastModule],
-  templateUrl: './login.html',
-  styleUrl: './login.scss',
+  imports: [ReactiveFormsModule, RouterLink, AuthShellComponent, ButtonModule, InputTextModule, ToastModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
   providers: [MessageService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Login {
+export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly messageService = inject(MessageService);
