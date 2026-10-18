@@ -1,21 +1,21 @@
 <p-toast />
 <app-auth-shell>
-  <h1 class="text-xl font-semibold">Вход</h1>
+  <h1 class="page-title">Вход</h1>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-6 space-y-4" novalidate>
-    <div>
-      <label for="email" class="mb-1.5 block text-sm font-medium">Email</label>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form" novalidate>
+    <div class="field">
+      <label for="email" class="field__label">Email</label>
       <input
         pInputText
+        fluid
         id="email"
         type="email"
         formControlName="email"
         autocomplete="email"
         [invalid]="isInvalid('email')"
-        class="w-full text-sm"
       />
       @if (isInvalid('email')) {
-        <p class="mt-1.5 text-xs text-red-500">
+        <p class="field__error">
           @if (loginForm.controls.email.hasError('required')) {
             Укажите email
           } @else {
@@ -25,19 +25,19 @@
       }
     </div>
 
-    <div>
-      <label for="password" class="mb-1.5 block text-sm font-medium">Пароль</label>
+    <div class="field">
+      <label for="password" class="field__label">Пароль</label>
       <input
         pInputText
+        fluid
         id="password"
         type="password"
         formControlName="password"
         autocomplete="current-password"
         [invalid]="isInvalid('password')"
-        class="w-full text-sm"
       />
       @if (isInvalid('password')) {
-        <p class="mt-1.5 text-xs text-red-500">
+        <p class="field__error">
           @if (loginForm.controls.password.hasError('required')) {
             Введите пароль
           } @else {
@@ -47,13 +47,11 @@
       }
     </div>
 
-    <button pButton type="submit" label="Войти" [loading]="loading()" class="w-full"></button>
+    <button pButton fluid type="submit" label="Войти" [loading]="loading()"></button>
   </form>
 
-  <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+  <p class="form-footer">
     Нет аккаунта?
-    <a routerLink="/registration" class="font-medium text-emerald-700 hover:underline dark:text-emerald-400">
-      Создать
-    </a>
+    <a routerLink="/registration" class="link">Создать</a>
   </p>
 </app-auth-shell>

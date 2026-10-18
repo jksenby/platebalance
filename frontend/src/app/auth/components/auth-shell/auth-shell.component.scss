@@ -1,3 +1,21 @@
 :host {
   display: block;
 }
+
+.auth-shell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.25rem;
+}
+
+.auth-shell__inner {
+  width: 100%;
+  max-width: 24rem;
+}
+
+.auth-shell__brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}

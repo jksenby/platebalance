@@ -1,0 +1,31 @@
+/* Семантические токены проекта. Компоненты ссылаются на них, а не на конкретные цвета палитры,
+   поэтому тёмная тема переопределяется только здесь.
+   Тема следует системной, как и PrimeNG Aura (darkModeSelector: 'system'). */
+:root {
+  --pb-bg: var(--color-slate-50);
+  --pb-surface: var(--color-white);
+  --pb-surface-muted: var(--color-slate-100);
+  --pb-border: var(--color-slate-200);
+  --pb-text: var(--color-slate-900);
+  --pb-text-muted: var(--color-slate-500);
+  --pb-accent: var(--color-emerald-600);
+  --pb-accent-soft: var(--color-emerald-50);
+  --pb-link: var(--color-emerald-700);
+  --pb-danger: var(--color-red-500);
+
+  --pb-radius-sm: var(--radius-lg);
+  --pb-radius: var(--radius-xl);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pb-bg: var(--color-slate-950);
+    --pb-surface: var(--color-slate-900);
+    --pb-surface-muted: var(--color-slate-800);
+    --pb-border: var(--color-slate-800);
+    --pb-text: var(--color-slate-100);
+    --pb-text-muted: var(--color-slate-400);
+    --pb-accent-soft: color-mix(in oklab, var(--color-emerald-500) 15%, transparent);
+    --pb-link: var(--color-emerald-400);
+  }
+}

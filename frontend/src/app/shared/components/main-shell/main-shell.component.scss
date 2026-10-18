@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.topbar {
+  border-bottom: 1px solid var(--pb-border);
+  background-color: var(--pb-surface);
+}
+
+.topbar__inner,
+.content {
+  max-width: 48rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+}
+
+.content {
+  padding-block: 2rem;
+}

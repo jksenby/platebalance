@@ -1,0 +1,25 @@
+:host {
+  display: inline-block;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--pb-radius-sm);
+  background-color: var(--pb-accent);
+  color: #fff;
+}
+
+.brand__name {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+}

@@ -55,6 +55,7 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           this.router.navigate(['/profile']);
+          console.log('Login successful');
         },
         error: (err) => {
           if (err.status === 401) {

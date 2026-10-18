@@ -1,1 +1,47 @@
-<p>profile.component works!</p>
+<app-main-shell>
+  <div class="profile">
+    <app-base-profile />
+
+    @if (!surveyCompleted()) {
+      <section class="card survey-cta">
+        <span class="survey-cta__icon">
+          <i class="pi pi-list-check"></i>
+        </span>
+        <div class="survey-cta__text">
+          <h2 class="section-title">Заполните анкету</h2>
+          <p class="muted survey-cta__description">
+            Рост, вес и возраст нужны, чтобы рассчитать вашу норму калорий и БЖУ.
+          </p>
+        </div>
+        <a pButton routerLink="/survey" label="Пройти анкету" class="survey-cta__action"></a>
+      </section>
+    }
+
+    <section class="card">
+      <div class="profile__section-header">
+        <h2 class="section-title">Параметры</h2>
+        @if (surveyCompleted()) {
+          <a routerLink="/survey" class="link profile__edit">Изменить</a>
+        }
+      </div>
+
+      <dl class="stats">
+        @for (stat of stats(); track stat.label) {
+          <div class="stats__item">
+            <dt class="stats__label">{{ stat.label }}</dt>
+            <dd class="stats__value">
+              @if (stat.value) {
+                {{ stat.value }}
+                @if (stat.unit) {
+                  <span class="stats__unit">{{ stat.unit }}</span>
+                }
+              } @else {
+                <span class="muted">—</span>
+              }
+            </dd>
+          </div>
+        }
+      </dl>
+    </section>
+  </div>
+</app-main-shell>

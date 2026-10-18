@@ -4,6 +4,10 @@
 
 @import "tailwindcss";
 
+/* Tailwind v4 не поддерживает Sass, поэтому глобальные стили — чистый CSS, разбитый по файлам. */
+@import "./styles/tokens.css" layer(base);
+@import "./styles/components.css" layer(components);
+
 @source "./app";
 
 html,

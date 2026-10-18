@@ -1,1 +1,9 @@
-<p>base-profile.component works!</p>
+@if (user(); as user) {
+  <section class="card base-profile">
+    <p-avatar [label]="initial()" shape="circle" size="xlarge" class="base-profile__avatar" />
+    <div class="base-profile__info">
+      <h1 class="page-title">{{ user.firstName }}</h1>
+      <p class="muted base-profile__email">{{ user.email }}</p>
+    </div>
+  </section>
+}

@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+
+import { BrandComponent } from '../../../shared/components/brand/brand.component';
 
 /** Презентационный каркас страниц авторизации: логотип и карточка с формой. */
 @Component({
   selector: 'app-auth-shell',
-  imports: [RouterLink],
+  imports: [BrandComponent],
   templateUrl: './auth-shell.component.html',
   styleUrl: './auth-shell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

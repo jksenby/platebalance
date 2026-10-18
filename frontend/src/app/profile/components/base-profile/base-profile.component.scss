@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.base-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.base-profile__avatar {
+  flex-shrink: 0;
+  background-color: var(--pb-accent-soft);
+  color: var(--pb-link);
+  font-weight: 600;
+}
+
+.base-profile__info {
+  min-width: 0;
+}
+
+.base-profile__email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}

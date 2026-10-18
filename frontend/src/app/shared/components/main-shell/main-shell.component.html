@@ -1,0 +1,19 @@
+<div class="page">
+  <header class="topbar">
+    <div class="topbar__inner">
+      <app-brand />
+      <p-button
+        label="Выйти"
+        icon="pi pi-sign-out"
+        severity="secondary"
+        text
+        [loading]="loggingOut()"
+        (onClick)="logout()"
+      />
+    </div>
+  </header>
+
+  <main class="content">
+    <ng-content />
+  </main>
+</div>
