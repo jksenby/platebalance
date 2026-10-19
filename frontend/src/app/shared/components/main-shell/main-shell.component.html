@@ -2,6 +2,10 @@
   <header class="topbar">
     <div class="topbar__inner">
       <app-brand />
+      <nav class="nav">
+        <a routerLink="/dashboard" routerLinkActive="nav__link--active" class="nav__link">Сегодня</a>
+        <a routerLink="/profile" routerLinkActive="nav__link--active" class="nav__link">Профиль</a>
+      </nav>
       <p-button
         label="Выйти"
         icon="pi pi-sign-out"

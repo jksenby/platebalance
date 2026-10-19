@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.survey__description {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.survey__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1rem;
+}
+
+.survey__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.survey__cancel {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}

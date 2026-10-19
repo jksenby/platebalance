@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { finalize } from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ import { BrandComponent } from '../brand/brand.component';
 /** Каркас страниц для авторизованного пользователя: шапка с логотипом и выходом, контент по центру. */
 @Component({
   selector: 'app-main-shell',
-  imports: [BrandComponent, ButtonModule],
+  imports: [BrandComponent, ButtonModule, RouterLink, RouterLinkActive],
   templateUrl: './main-shell.component.html',
   styleUrl: './main-shell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

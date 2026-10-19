@@ -1,1 +1,97 @@
-<p>survey.component works!</p>
+<p-toast />
+<app-main-shell>
+  <section class="card survey">
+    <h1 class="page-title">Анкета</h1>
+    <p class="muted survey__description">
+      По этим данным мы рассчитаем вашу дневную норму калорий и БЖУ.
+    </p>
+
+    <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()" class="form" novalidate>
+      <div class="field">
+        <span id="gender-label" class="field__label">Пол</span>
+        <p-selectbutton
+          formControlName="gender"
+          [options]="genderOptions"
+          optionLabel="label"
+          optionValue="value"
+          [allowEmpty]="false"
+          ariaLabelledBy="gender-label"
+          [invalid]="isInvalid('gender')"
+        />
+        @if (isInvalid('gender')) {
+          <p class="field__error">Выберите пол</p>
+        }
+      </div>
+
+      <div class="survey__grid">
+        <div class="field">
+          <label for="age" class="field__label">Возраст, лет</label>
+          <p-inputnumber
+            inputId="age"
+            formControlName="age"
+            fluid
+            [useGrouping]="false"
+            [invalid]="isInvalid('age')"
+          />
+          @if (isInvalid('age')) {
+            <p class="field__error">
+              @if (surveyForm.controls.age.hasError('required')) {
+                Укажите возраст
+              } @else {
+                От {{ limits.age.min }} до {{ limits.age.max }} лет
+              }
+            </p>
+          }
+        </div>
+
+        <div class="field">
+          <label for="height" class="field__label">Рост, см</label>
+          <p-inputnumber
+            inputId="height"
+            formControlName="height"
+            fluid
+            [useGrouping]="false"
+            [invalid]="isInvalid('height')"
+          />
+          @if (isInvalid('height')) {
+            <p class="field__error">
+              @if (surveyForm.controls.height.hasError('required')) {
+                Укажите рост
+              } @else {
+                От {{ limits.height.min }} до {{ limits.height.max }} см
+              }
+            </p>
+          }
+        </div>
+
+        <div class="field">
+          <label for="weight" class="field__label">Вес, кг</label>
+          <p-inputnumber
+            inputId="weight"
+            formControlName="weight"
+            fluid
+            mode="decimal"
+            [maxFractionDigits]="1"
+            [useGrouping]="false"
+            locale="ru-RU"
+            [invalid]="isInvalid('weight')"
+          />
+          @if (isInvalid('weight')) {
+            <p class="field__error">
+              @if (surveyForm.controls.weight.hasError('required')) {
+                Укажите вес
+              } @else {
+                От {{ limits.weight.min }} до {{ limits.weight.max }} кг
+              }
+            </p>
+          }
+        </div>
+      </div>
+
+      <div class="survey__actions">
+        <a routerLink="/profile" class="link survey__cancel">Отмена</a>
+        <button pButton type="submit" label="Сохранить" [loading]="loading()"></button>
+      </div>
+    </form>
+  </section>
+</app-main-shell>

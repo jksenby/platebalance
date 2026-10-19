@@ -1,0 +1,141 @@
+:host {
+  display: block;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dashboard__date {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.dashboard__section-title {
+  margin-bottom: 1rem;
+}
+
+/* Калории за день */
+.calories__hero {
+  margin-bottom: 1.25rem;
+}
+
+.calories__caption {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.calories__value {
+  font-size: 3rem;
+  line-height: 1;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.calories__value--over {
+  color: var(--pb-danger);
+}
+
+.calories__unit {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  color: var(--pb-text-muted);
+}
+
+.macros {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Показатели нормы */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
+}
+
+.tiles__item {
+  padding: 1rem 1.5rem;
+}
+
+.tiles__label {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--pb-text-muted);
+}
+
+.tiles__value {
+  margin-top: 0.25rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.tiles__unit {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--pb-text-muted);
+}
+
+/* Пустое состояние */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding-block: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.empty__icon {
+  font-size: 1.5rem;
+  color: var(--pb-text-muted);
+}
+
+/* Призыв пройти анкету */
+.survey-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.survey-cta__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--pb-radius-sm);
+  background-color: var(--pb-accent-soft);
+  color: var(--pb-link);
+  font-size: 1.25rem;
+}
+
+.survey-cta__text {
+  flex: 1 1 14rem;
+}
+
+.survey-cta__description {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+@media (max-width: 40rem) {
+  .survey-cta__action {
+    width: 100%;
+  }
+}

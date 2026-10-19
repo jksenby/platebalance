@@ -54,7 +54,7 @@ export class LoginComponent {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: () => {
-          this.router.navigate(['/profile']);
+          this.router.navigate(['/dashboard']);
           console.log('Login successful');
         },
         error: (err) => {
