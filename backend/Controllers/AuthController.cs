@@ -23,12 +23,7 @@ namespace PlateBalance.Api.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             if (user is null) return Unauthorized();
-            return Ok(new
-            {
-                user.Email,
-                user.Id,
-                user.FirstName
-            });
+            return Ok(user);
         }
 
         [Authorize]

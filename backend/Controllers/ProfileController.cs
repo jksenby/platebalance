@@ -44,20 +44,15 @@ namespace PlateBalance.Api.Controllers
                 return NotFound(new BaseResponse{ Message = "User not found.", Success = false });
             }
 
-            var newUser = new User
-            {
-                Id = user.Id,
-                Email = model.Email,
-                UserName = model.Email,
-                FirstName = model.FirstName,
-                DateOfBirth = model.DateOfBirth,
-                Gender = model.Gender,
-                Age = model.Age,
-                Weight = model.Weight,
-                Height = model.Height
-            };
+            user.Email = model.Email ?? user.Email;
+            user.FirstName = model.FirstName ?? user.FirstName;
+            user.DateOfBirth = model.DateOfBirth ?? user.DateOfBirth;
+            user.Gender = model.Gender ?? user.Gender;
+            user.Age = model.Age ?? user.Age;
+            user.Weight = model.Weight ?? user.Weight;
+            user.Height = model.Height ?? user.Height;
 
-            var result = await _userManager.UpdateAsync(newUser);
+            var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
                 return BadRequest(new BaseResponse{ Message = "Failed to update profile.", Success = false });

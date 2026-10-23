@@ -6,3 +6,13 @@ export interface SurveyRequest {
     height: number;
     weight: number;
 }
+
+export interface ProfileRequest {
+    email: string;
+    firstName: string;
+    dateOfBirth: string;
+    gender: Gender;
+    age: number;
+    weight: number;
+    height: number;
+}

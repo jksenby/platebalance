@@ -12,7 +12,7 @@
     <app-base-profile />
 
     <p-card>
-      <form class="profile-form" (submit)="$event.preventDefault()">
+      <form class="profile-form" (submit)="onSubmit($event)">
         <div class="header">
           <div>
             <h2 class="section-title">Редактирование профиля</h2>
@@ -33,10 +33,6 @@
               <label class="field">
                 <span class="label">Имя</span>
                 <input pInputText fluid [formField]="profileForm.firstName" type="text" autocomplete="given-name" placeholder="Ваше имя" />
-              </label>
-              <label class="field">
-                <span class="label">Имя пользователя</span>
-                <input pInputText fluid [formField]="profileForm.username" type="text" autocomplete="username" placeholder="Ваш никнейм" />
               </label>
               <label class="field full-width">
                 <span class="label">Электронная почта</span>
@@ -80,7 +76,7 @@
         </div>
 
         <footer class="footer">
-          <p-button routerLink="/survey" label="Перейти к анкете" class="action" />
+          <p-button type="submit" label="Сохранить" [loading]="loading()" class="action" />
         </footer>
       </form>
     </p-card>
