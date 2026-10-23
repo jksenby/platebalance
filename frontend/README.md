@@ -1,6 +1,19 @@
 # Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.2.
+This project uses Angular and [Angular CLI](https://github.com/angular/angular-cli) 22.2.3.
+
+Use Node.js `^22.22.3`, `^24.15.0`, or `^26.0.0` and pnpm. Install dependencies with `pnpm install --frozen-lockfile`.
+
+## UI and styling
+
+Use **PrimeNG > SCSS > Tailwind** when building the interface:
+
+- Use PrimeNG components and their theme for standard controls, cards, messages, and indicators.
+- Use `<p-button>` for all buttons.
+- Use component SCSS for layout, responsive behavior, and app-specific presentation.
+- Use Tailwind only for small additions where PrimeNG and SCSS would be excessive.
+
+Global SCSS lives in `src/styles.scss` and `src/styles/`. Tailwind has a separate CSS entry in `src/styles.css`; its utilities have lower cascade priority than PrimeNG and application styles. Shared colors reference the PrimeNG theme tokens.
 
 ## Development server
 

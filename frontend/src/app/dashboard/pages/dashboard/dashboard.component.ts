@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { CardModule } from 'primeng/card';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
@@ -19,7 +20,7 @@ const EMPTY_INTAKE: Intake = { calories: 0, protein: 0, fat: 0, carbs: 0 };
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, ButtonModule, MainShellComponent, NutrientMeterComponent],
+  imports: [CardModule, RouterLink, ButtonModule, MainShellComponent, NutrientMeterComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

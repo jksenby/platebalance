@@ -1,67 +1,50 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 /** Шкала «съедено из нормы» для одного нутриента. При превышении нормы заливка краснеет. */
 @Component({
   selector: 'app-nutrient-meter',
+  imports: [ProgressBarModule],
   template: `
-    <div class="meter__header">
-      <span class="meter__label">{{ label() }}</span>
-      <span class="meter__value">
+    <div class="header">
+      <span class="label">{{ label() }}</span>
+      <span class="value">
         {{ consumed().toLocaleString('ru-RU') }}
         <span class="muted">/ {{ target().toLocaleString('ru-RU') }} {{ unit() }}</span>
       </span>
     </div>
-    <div
-      class="meter__track"
-      role="meter"
-      [attr.aria-label]="label()"
-      [attr.aria-valuenow]="consumed()"
-      aria-valuemin="0"
-      [attr.aria-valuemax]="target()"
-      [attr.aria-valuetext]="consumed() + ' из ' + target() + ' ' + unit()"
-    >
-      <div class="meter__fill" [class.meter__fill--over]="over()" [style.width.%]="percent()"></div>
-    </div>
+    <p-progressbar
+      class="bar"
+      [value]="percent()"
+      [showValue]="false"
+      [color]="over() ? 'var(--p-red-500)' : undefined"
+    />
   `,
   styles: `
     :host {
       display: block;
-    }
 
-    .meter__header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 0.5rem;
-      margin-bottom: 0.375rem;
-      font-size: 0.875rem;
-      line-height: 1.25rem;
-    }
+      .header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin-bottom: 0.375rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
 
-    .meter__label {
-      font-weight: 500;
-    }
+      .label {
+        font-weight: 500;
+      }
 
-    .meter__value {
-      font-variant-numeric: tabular-nums;
-    }
+      .value {
+        font-variant-numeric: tabular-nums;
+      }
 
-    .meter__track {
-      height: 0.5rem;
-      overflow: hidden;
-      border-radius: 9999px;
-      background-color: var(--pb-accent-soft);
-    }
-
-    .meter__fill {
-      height: 100%;
-      border-radius: 9999px;
-      background-color: var(--pb-accent);
-      transition: width 0.3s ease;
-    }
-
-    .meter__fill--over {
-      background-color: var(--pb-danger);
+      .bar {
+        --p-progressbar-height: 0.5rem;
+      }
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

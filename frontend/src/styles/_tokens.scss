@@ -1,0 +1,23 @@
+/* Общие цвета следуют теме PrimeNG Aura. */
+:root {
+  --pb-bg: var(--p-surface-50);
+  --pb-surface: var(--p-content-background);
+  --pb-surface-muted: var(--p-surface-100);
+  --pb-border: var(--p-content-border-color);
+  --pb-text: var(--p-text-color);
+  --pb-text-muted: var(--p-text-muted-color);
+  --pb-accent: var(--p-primary-color);
+  --pb-accent-soft: var(--p-highlight-background);
+  --pb-link: var(--p-primary-color);
+  --pb-danger: var(--p-red-500);
+
+  --pb-radius-sm: var(--p-border-radius-md);
+  --pb-radius: var(--p-border-radius-xl);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pb-bg: var(--p-surface-950);
+    --pb-surface-muted: var(--p-surface-800);
+  }
+}

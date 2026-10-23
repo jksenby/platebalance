@@ -3,51 +3,46 @@
   <h1 class="page-title">Вход</h1>
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form" novalidate>
-    <div class="field">
-      <label for="email" class="field__label">Email</label>
+    <label class="field">
+      <span class="label">Email</span>
       <input
         pInputText
         fluid
-        id="email"
         type="email"
         formControlName="email"
         autocomplete="email"
         [invalid]="isInvalid('email')"
       />
       @if (isInvalid('email')) {
-        <p class="field__error">
+        <p-message severity="error" variant="simple" size="small">
           @if (loginForm.controls.email.hasError('required')) {
             Укажите email
           } @else {
             Похоже, в адресе опечатка
           }
-        </p>
+        </p-message>
       }
-    </div>
+    </label>
 
-    <div class="field">
-      <label for="password" class="field__label">Пароль</label>
-      <input
-        pInputText
-        fluid
-        id="password"
-        type="password"
+    <label class="field">
+      <span class="label">Пароль</span>
+      <p-password fluid toggleMask [feedback]="false"
         formControlName="password"
         autocomplete="current-password"
         [invalid]="isInvalid('password')"
       />
       @if (isInvalid('password')) {
-        <p class="field__error">
+        <p-message severity="error" variant="simple" size="small">
           @if (loginForm.controls.password.hasError('required')) {
             Введите пароль
           } @else {
             Минимум 8 символов
           }
-        </p>
+        </p-message>
       }
-    </div>
+    </label>
 
-    <button pButton fluid type="submit" label="Войти" [loading]="loading()"></button>
+    <p-button fluid type="submit" label="Войти" [loading]="loading()" />
   </form>
 
   <p class="form-footer">

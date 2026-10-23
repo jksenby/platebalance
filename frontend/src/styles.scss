@@ -1,0 +1,13 @@
+@use './styles/tokens';
+@use './styles/components';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}

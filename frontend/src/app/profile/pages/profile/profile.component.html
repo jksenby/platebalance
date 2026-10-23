@@ -1,47 +1,88 @@
 <app-main-shell>
-  <div class="profile">
+  <div class="profile-page">
+    <header class="header">
+      <div>
+        <p class="eyebrow">Личный кабинет</p>
+        <h1 class="title">Мой профиль</h1>
+        <p class="description">Ваши данные — основа персонального плана питания.</p>
+      </div>
+      <p-tag icon="pi pi-user" value="Настройки профиля" />
+    </header>
+
     <app-base-profile />
 
-    @if (!surveyCompleted()) {
-      <section class="card survey-cta">
-        <span class="survey-cta__icon">
-          <i class="pi pi-list-check"></i>
-        </span>
-        <div class="survey-cta__text">
-          <h2 class="section-title">Заполните анкету</h2>
-          <p class="muted survey-cta__description">
-            Рост, вес и возраст нужны, чтобы рассчитать вашу норму калорий и БЖУ.
-          </p>
-        </div>
-        <a pButton routerLink="/survey" label="Пройти анкету" class="survey-cta__action"></a>
-      </section>
-    }
-
-    <section class="card">
-      <div class="profile__section-header">
-        <h2 class="section-title">Параметры</h2>
-        @if (surveyCompleted()) {
-          <a routerLink="/survey" class="link profile__edit">Изменить</a>
-        }
-      </div>
-
-      <dl class="stats">
-        @for (stat of stats(); track stat.label) {
-          <div class="stats__item">
-            <dt class="stats__label">{{ stat.label }}</dt>
-            <dd class="stats__value">
-              @if (stat.value) {
-                {{ stat.value }}
-                @if (stat.unit) {
-                  <span class="stats__unit">{{ stat.unit }}</span>
-                }
-              } @else {
-                <span class="muted">—</span>
-              }
-            </dd>
+    <p-card>
+      <form class="profile-form" (submit)="$event.preventDefault()">
+        <div class="header">
+          <div>
+            <h2 class="section-title">Редактирование профиля</h2>
+            <p class="subtitle">Личная информация и параметры тела</p>
           </div>
-        }
-      </dl>
-    </section>
+          <p-tag severity="secondary" [value]="profileForm().dirty() ? 'Есть изменения · черновик' : 'Черновик профиля'" />
+        </div>
+
+        <div class="content">
+          <p-fieldset>
+            <ng-template #legend>
+              <span class="legend">
+                <i class="pi pi-id-card icon"></i> Личная информация
+              </span>
+            </ng-template>
+            <p class="description">Как к вам обращаться и куда отправлять письма.</p>
+            <div class="grid">
+              <label class="field">
+                <span class="label">Имя</span>
+                <input pInputText fluid [formField]="profileForm.firstName" type="text" autocomplete="given-name" placeholder="Ваше имя" />
+              </label>
+              <label class="field">
+                <span class="label">Имя пользователя</span>
+                <input pInputText fluid [formField]="profileForm.username" type="text" autocomplete="username" placeholder="Ваш никнейм" />
+              </label>
+              <label class="field full-width">
+                <span class="label">Электронная почта</span>
+                <input pInputText fluid [formField]="profileForm.email" type="email" autocomplete="email" placeholder="you@example.com" />
+              </label>
+            </div>
+          </p-fieldset>
+
+          <p-fieldset>
+            <ng-template #legend>
+              <span class="legend">
+                <i class="pi pi-heart icon"></i> Параметры тела
+              </span>
+            </ng-template>
+            <p class="description">Данные для расчёта вашей дневной нормы.</p>
+            <div class="grid">
+              <label class="field">
+                <span class="label">Дата рождения</span>
+                <p-datepicker fluid [formField]="profileForm.dateOfBirth" dateFormat="dd.mm.yy" showIcon />
+              </label>
+              <label class="field">
+                <span class="label">Пол</span>
+                <p-select fluid [formField]="profileForm.gender" [options]="genderOptions" optionLabel="label" optionValue="value" placeholder="Выберите пол" />
+              </label>
+            </div>
+            <div class="grid measurements">
+              <label class="field">
+                <span class="label">Возраст <span class="unit">· лет</span></span>
+                <p-inputnumber fluid [formField]="profileForm.age" placeholder="28" [useGrouping]="false" />
+              </label>
+              <label class="field">
+                <span class="label">Рост <span class="unit">· см</span></span>
+                <p-inputnumber fluid [formField]="profileForm.height" placeholder="170" [useGrouping]="false" [maxFractionDigits]="1" />
+              </label>
+              <label class="field">
+                <span class="label">Вес <span class="unit">· кг</span></span>
+                <p-inputnumber fluid [formField]="profileForm.weight" placeholder="65" [useGrouping]="false" [maxFractionDigits]="1" />
+              </label>
+            </div>
+          </p-fieldset>
+        </div>
+
+        <footer class="footer">
+          <p-button routerLink="/survey" label="Перейти к анкете" class="action" />
+        </footer>
+      </form>
+    </p-card>
   </div>
 </app-main-shell>

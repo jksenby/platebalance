@@ -1,9 +1,11 @@
 @if (user(); as user) {
-  <section class="card base-profile">
-    <p-avatar [label]="initial()" shape="circle" size="xlarge" class="base-profile__avatar" />
-    <div class="base-profile__info">
-      <h1 class="page-title">{{ user.firstName }}</h1>
-      <p class="muted base-profile__email">{{ user.email }}</p>
+  <p-card>
+    <div class="base-profile">
+      <p-avatar [label]="initial()" shape="circle" size="xlarge" class="avatar" />
+      <div class="info">
+        <h1 class="page-title">{{ user.firstName }}</h1>
+        <p class="muted email">{{ user.email }}</p>
+      </div>
     </div>
-  </section>
+  </p-card>
 }

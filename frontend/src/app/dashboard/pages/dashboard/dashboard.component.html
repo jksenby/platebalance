@@ -2,18 +2,18 @@
   <div class="dashboard">
     <header>
       <h1 class="page-title">{{ greeting() }}</h1>
-      <p class="muted dashboard__date">{{ today }}</p>
+      <p class="muted date">{{ today }}</p>
     </header>
 
     @if (norm(); as norm) {
-      <section class="card calories">
-        <div class="calories__hero">
-          <p class="muted calories__caption">
+      <p-card class="calories">
+        <div class="hero">
+          <p class="muted caption">
             {{ remaining() >= 0 ? 'Осталось на сегодня' : 'Превышение нормы' }}
           </p>
-          <p class="calories__value" [class.calories__value--over]="remaining() < 0">
+          <p class="value" [class.over]="remaining() < 0">
             {{ format(remaining() < 0 ? -remaining() : remaining()) }}
-            <span class="calories__unit">ккал</span>
+            <span class="unit">ккал</span>
           </p>
         </div>
 
@@ -23,52 +23,58 @@
           [consumed]="intake().calories"
           [target]="norm.calories"
         />
-      </section>
+      </p-card>
 
-      <section class="card">
-        <h2 class="section-title dashboard__section-title">БЖУ</h2>
+      <p-card>
+        <h2 class="section-title card-title">БЖУ</h2>
         <div class="macros">
           <app-nutrient-meter label="Белки" [consumed]="intake().protein" [target]="norm.protein" />
           <app-nutrient-meter label="Жиры" [consumed]="intake().fat" [target]="norm.fat" />
           <app-nutrient-meter label="Углеводы" [consumed]="intake().carbs" [target]="norm.carbs" />
         </div>
-      </section>
+      </p-card>
 
-      <dl class="tiles">
-        <div class="card tiles__item">
-          <dt class="tiles__label">Суточная норма</dt>
-          <dd class="tiles__value">
-            {{ format(norm.calories) }} <span class="tiles__unit">ккал</span>
-          </dd>
-        </div>
-        <div class="card tiles__item">
-          <dt class="tiles__label">Базовый обмен</dt>
-          <dd class="tiles__value">
-            {{ format(norm.bmr) }} <span class="tiles__unit">ккал</span>
-          </dd>
-        </div>
-      </dl>
+      <div class="tiles">
+        <p-card>
+          <dl>
+            <dt class="label">Суточная норма</dt>
+            <dd class="value">
+              {{ format(norm.calories) }} <span class="unit">ккал</span>
+            </dd>
+          </dl>
+        </p-card>
+        <p-card>
+          <dl>
+            <dt class="label">Базовый обмен</dt>
+            <dd class="value">
+              {{ format(norm.bmr) }} <span class="unit">ккал</span>
+            </dd>
+          </dl>
+        </p-card>
+      </div>
 
-      <section class="card">
-        <h2 class="section-title dashboard__section-title">Приёмы пищи</h2>
+      <p-card>
+        <h2 class="section-title card-title">Приёмы пищи</h2>
         <div class="empty">
-          <i class="pi pi-inbox empty__icon"></i>
+          <i class="pi pi-inbox icon"></i>
           <p class="muted">Сегодня пока ничего не записано</p>
         </div>
-      </section>
+      </p-card>
     } @else {
-      <section class="card survey-cta">
-        <span class="survey-cta__icon">
-          <i class="pi pi-calculator"></i>
-        </span>
-        <div class="survey-cta__text">
-          <h2 class="section-title">Рассчитаем вашу норму</h2>
-          <p class="muted survey-cta__description">
-            Укажите пол, возраст, рост и вес — и здесь появится дневная норма калорий и БЖУ.
-          </p>
+      <p-card>
+        <div class="survey-cta">
+          <span class="icon">
+            <i class="pi pi-calculator"></i>
+          </span>
+          <div class="text">
+            <h2 class="section-title">Рассчитаем вашу норму</h2>
+            <p class="muted description">
+              Укажите пол, возраст, рост и вес — и здесь появится дневная норма калорий и БЖУ.
+            </p>
+          </div>
+          <p-button fluid routerLink="/survey" label="Пройти анкету" class="action" />
         </div>
-        <a pButton routerLink="/survey" label="Пройти анкету" class="survey-cta__action"></a>
-      </section>
+      </p-card>
     }
   </div>
 </app-main-shell>

@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@
 import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
+import { PasswordModule } from 'primeng/password';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { finalize } from 'rxjs/operators';
@@ -14,7 +16,7 @@ type RegistrationField = 'name' | 'email' | 'password' | 'confirmPassword';
 
 @Component({
   selector: 'app-registration',
-  imports: [ReactiveFormsModule, RouterLink, AuthShellComponent, ButtonModule, InputTextModule, ToastModule],
+  imports: [ReactiveFormsModule, RouterLink, AuthShellComponent, ButtonModule, InputTextModule, MessageModule, PasswordModule, ToastModule],
   providers: [MessageService],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',

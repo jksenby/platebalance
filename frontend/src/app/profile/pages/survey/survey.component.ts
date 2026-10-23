@@ -1,16 +1,22 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { SelectButtonModule } from 'primeng/selectbutton';
+import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
+import { SelectModule } from 'primeng/select';
+import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { finalize } from 'rxjs/operators';
+import { form, FormField, min, max, required } from '@angular/forms/signals';
 
 import { UserStore } from '../../../auth/services/user.store';
 import { MainShellComponent } from '../../../shared/components/main-shell/main-shell.component';
 import { Gender, SurveyRequest } from '../../models/request.model';
+import { GENDER_OPTIONS } from '../../models/gender-options';
 import { ProfileService } from '../../services/profile.service';
 
 type SurveyField = 'gender' | 'age' | 'height' | 'weight';
@@ -25,13 +31,17 @@ const LIMITS = {
 @Component({
   selector: 'app-survey',
   imports: [
-    ReactiveFormsModule,
-    RouterLink,
     ButtonModule,
+    CardModule,
+    FieldsetModule,
     InputNumberModule,
-    SelectButtonModule,
+    InputTextModule,
+    MessageModule,
+    SelectModule,
+    TagModule,
     ToastModule,
     MainShellComponent,
+    FormField,
   ],
   templateUrl: './survey.component.html',
   styleUrl: './survey.component.scss',
@@ -39,36 +49,34 @@ const LIMITS = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SurveyComponent {
-  private readonly fb = inject(FormBuilder);
   private readonly profileService = inject(ProfileService);
   private readonly userStore = inject(UserStore);
   private readonly messageService = inject(MessageService);
   private readonly router = inject(Router);
 
-  protected readonly limits = LIMITS;
-
-  protected readonly genderOptions: { label: string; value: Gender }[] = [
-    { label: 'Мужской', value: 'male' },
-    { label: 'Женский', value: 'female' },
-  ];
-
-  /** Если анкету уже заполняли — подставляем сохранённые значения. */
   private readonly user = this.userStore.user();
 
-  protected readonly surveyForm = this.fb.group({
-    gender: [this.parseGender(this.user?.gender), Validators.required],
-    age: [
-      this.user?.age ?? null,
-      [Validators.required, Validators.min(LIMITS.age.min), Validators.max(LIMITS.age.max)],
-    ],
-    height: [
-      this.user?.height ?? null,
-      [Validators.required, Validators.min(LIMITS.height.min), Validators.max(LIMITS.height.max)],
-    ],
-    weight: [
-      this.user?.weight ?? null,
-      [Validators.required, Validators.min(LIMITS.weight.min), Validators.max(LIMITS.weight.max)],
-    ],
+  protected readonly limits = LIMITS;
+  protected readonly genderOptions = GENDER_OPTIONS;
+
+  public surveyModel = signal({
+    firstName: this.user?.firstName ?? '',
+    gender: this.parseGender(this.user?.gender),
+    age: this.user?.age ?? null,
+    height: this.user?.height ?? null,
+    weight: this.user?.weight ?? null,
+  });
+
+  protected readonly surveyForm = form(this.surveyModel, (schemePath) => {
+    required(schemePath.gender, { message: 'Это обязательное поле' });
+    required(schemePath.age, { message: 'Это обязательное поле' });
+    required(schemePath.firstName, { message: 'Это обязательное поле' });
+    min(schemePath.age, LIMITS.age.min);
+    max(schemePath.age, LIMITS.age.max);
+    min(schemePath.height, LIMITS.height.min);
+    max(schemePath.height, LIMITS.height.max);
+    min(schemePath.weight, LIMITS.weight.min);
+    max(schemePath.weight, LIMITS.weight.max);
   });
 
   protected readonly submitted = signal(false);
@@ -76,19 +84,19 @@ export class SurveyComponent {
 
   /** Показывать ошибку, только когда поле трогали или форму уже отправляли. */
   protected isInvalid(field: SurveyField): boolean {
-    const control = this.surveyForm.controls[field];
-    return control.invalid && (control.touched || this.submitted());
+    const control = this.surveyForm[field]();
+    return control.invalid() && (control.touched() || this.submitted());
   }
 
   protected onSubmit(): void {
     this.submitted.set(true);
 
-    if (this.surveyForm.invalid) {
-      this.surveyForm.markAllAsTouched();
+    if (this.surveyForm().invalid()) {
+      this.surveyForm().markAsTouched();
       return;
     }
 
-    const request = this.surveyForm.getRawValue() as SurveyRequest;
+    const request = this.surveyModel() as SurveyRequest;
     this.loading.set(true);
 
     this.profileService
@@ -109,8 +117,8 @@ export class SurveyComponent {
       });
   }
 
-  private parseGender(value: string | null | undefined): Gender | null {
+  private parseGender(value: string | null | undefined): Gender | '' {
     const gender = value?.toLowerCase();
-    return gender === 'male' || gender === 'female' ? gender : null;
+    return gender === 'male' || gender === 'female' ? gender : '';
   }
 }

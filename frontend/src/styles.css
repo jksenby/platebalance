@@ -1,21 +1,6 @@
-/* Порядок слоёв: утилиты Tailwind должны перебивать стили компонентов PrimeNG.
-   Объявление обязано идти до импорта Tailwind — порядок слоёв задаёт первое упоминание. */
-@layer theme, base, primeng, components, utilities;
+/* Tailwind дополняет интерфейс; тема PrimeNG и стили приложения имеют приоритет. */
+@layer theme, base, utilities, primeng, components;
 
 @import "tailwindcss";
 
-/* Tailwind v4 не поддерживает Sass, поэтому глобальные стили — чистый CSS, разбитый по файлам. */
-@import "./styles/tokens.css" layer(base);
-@import "./styles/components.css" layer(components);
-
 @source "./app";
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-}

@@ -49,7 +49,12 @@ namespace PlateBalance.Api.Controllers
                 Id = user.Id,
                 Email = model.Email,
                 UserName = model.Email,
-                FirstName = model.FirstName
+                FirstName = model.FirstName,
+                DateOfBirth = model.DateOfBirth,
+                Gender = model.Gender,
+                Age = model.Age,
+                Weight = model.Weight,
+                Height = model.Height
             };
 
             var result = await _userManager.UpdateAsync(newUser);

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { CardModule } from 'primeng/card';
 import { AvatarModule } from 'primeng/avatar';
 
 import { UserStore } from '../../../auth/services/user.store';
@@ -6,7 +7,7 @@ import { UserStore } from '../../../auth/services/user.store';
 /** Карточка с основной информацией о пользователе: аватар, имя, email. */
 @Component({
   selector: 'app-base-profile',
-  imports: [AvatarModule],
+  imports: [CardModule, AvatarModule],
   templateUrl: './base-profile.component.html',
   styleUrl: './base-profile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
