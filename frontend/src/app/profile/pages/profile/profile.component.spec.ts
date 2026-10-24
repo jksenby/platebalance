@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { FormField } from '@angular/forms/signals';
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { UserStore } from '../../../auth/services/user.store';
 
 import { ProfileComponent } from './profile.component';
 
@@ -12,14 +15,20 @@ describe('ProfileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProfileComponent],
-      providers: [provideRouter([])]
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()]
     })
     .compileComponents();
 
+    TestBed.inject(UserStore).setUser({
+      id: 'test-user', email: 'alex@example.com', firstName: 'Alex', gender: 'male',
+      age: 28, height: 175, weight: 72.5, physicalActivityFactor: 1.55,
+    });
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+
+  afterEach(() => TestBed.inject(HttpTestingController).verify());
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -64,5 +73,28 @@ describe('ProfileComponent', () => {
     await fixture.whenStable();
 
     expect(control.injector.get(FormField).field()().value()).toBe('male');
+  });
+
+  it('loads saved activity and persists a change selected through PrimeNG', async () => {
+    expect(component.profileModel().physicalActivityFactor).toBe(1.55);
+    const control = fixture.debugElement.queryAll(By.css('p-select'))[1];
+    control.nativeElement.click();
+    await fixture.whenStable();
+    const option = Array.from(fixture.nativeElement.querySelectorAll('[role="option"]'))
+      .find((item) => (item as HTMLElement).textContent?.includes('Минимальная')) as HTMLElement;
+    option.click();
+    await fixture.whenStable();
+
+    const event = new Event('submit', { bubbles: true, cancelable: true });
+    fixture.nativeElement.querySelector('form').dispatchEvent(event);
+    const request = TestBed.inject(HttpTestingController).expectOne('/profile/update');
+    expect(request.request.method).toBe('PUT');
+    expect(request.request.body.physicalActivityFactor).toBe(1.2);
+    expect(component.loading()).toBeTrue();
+    request.flush({ success: true, message: '' });
+    await fixture.whenStable();
+
+    expect(component.loading()).toBeFalse();
+    expect(TestBed.inject(UserStore).user()?.physicalActivityFactor).toBe(1.2);
   });
 });

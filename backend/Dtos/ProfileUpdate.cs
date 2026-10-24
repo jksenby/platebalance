@@ -6,8 +6,9 @@ public record ProfileUpdateDto
    string? FirstName,
    string? Email,
    DateOnly? DateOfBirth,
-   string? Gender,
+   Gender? Gender,
    int? Age,
    float? Height,
-   float? Weight
+   float? Weight,
+   float? PhysicalActivityFactor = null
 );

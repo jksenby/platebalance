@@ -5,6 +5,7 @@ export interface SurveyRequest {
     age: number;
     height: number;
     weight: number;
+    physicalActivityFactor: number;
 }
 
 export interface ProfileRequest {
@@ -15,4 +16,5 @@ export interface ProfileRequest {
     age: number;
     weight: number;
     height: number;
+    physicalActivityFactor: number;
 }

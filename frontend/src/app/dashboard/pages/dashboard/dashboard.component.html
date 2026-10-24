@@ -5,7 +5,18 @@
       <p class="muted date">{{ today }}</p>
     </header>
 
-    @if (norm(); as norm) {
+    @if (loading()) {
+      <p-card>
+        <p class="muted" role="status">Рассчитываем вашу норму…</p>
+      </p-card>
+    } @else if (loadError()) {
+      <p-card>
+        <div class="empty" role="alert">
+          <p class="muted">Не удалось загрузить норму калорий. Попробуйте ещё раз.</p>
+          <p-button label="Повторить" (onClick)="loadNorm()" />
+        </div>
+      </p-card>
+    } @else if (norm(); as norm) {
       <p-card class="calories">
         <div class="hero">
           <p class="muted caption">
@@ -21,7 +32,7 @@
           label="Калории"
           unit="ккал"
           [consumed]="intake().calories"
-          [target]="norm.calories"
+          [target]="norm.dailyCalories"
         />
       </p-card>
 
@@ -39,7 +50,7 @@
           <dl>
             <dt class="label">Суточная норма</dt>
             <dd class="value">
-              {{ format(norm.calories) }} <span class="unit">ккал</span>
+              {{ format(norm.dailyCalories) }} <span class="unit">ккал</span>
             </dd>
           </dl>
         </p-card>
@@ -69,7 +80,7 @@
           <div class="text">
             <h2 class="section-title">Рассчитаем вашу норму</h2>
             <p class="muted description">
-              Укажите пол, возраст, рост и вес — и здесь появится дневная норма калорий и БЖУ.
+              Укажите пол, возраст, рост, вес и активность — и здесь появится дневная норма калорий и БЖУ.
             </p>
           </div>
           <p-button fluid routerLink="/survey" label="Пройти анкету" class="action" />

@@ -51,6 +51,7 @@ namespace PlateBalance.Api.Controllers
             user.Age = model.Age ?? user.Age;
             user.Weight = model.Weight ?? user.Weight;
             user.Height = model.Height ?? user.Height;
+            user.PhysicalActivityFactor = model.PhysicalActivityFactor ?? user.PhysicalActivityFactor;
 
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)

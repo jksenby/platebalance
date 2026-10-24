@@ -13,4 +13,5 @@ export interface CurrentUserResponse {
     gender?: string | null;
     height?: number | null;
     weight?: number | null;
+    physicalActivityFactor?: number | null;
 }

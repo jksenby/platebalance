@@ -17,9 +17,13 @@ import { UserStore } from '../../../auth/services/user.store';
 import { MainShellComponent } from '../../../shared/components/main-shell/main-shell.component';
 import { Gender, SurveyRequest } from '../../models/request.model';
 import { GENDER_OPTIONS } from '../../models/gender-options';
+import {
+  DEFAULT_PHYSICAL_ACTIVITY_FACTOR,
+  PHYSICAL_ACTIVITY_OPTIONS,
+} from '../../models/physical-activity-options';
 import { ProfileService } from '../../services/profile.service';
 
-type SurveyField = 'gender' | 'age' | 'height' | 'weight';
+type SurveyField = 'gender' | 'age' | 'height' | 'weight' | 'physicalActivityFactor';
 
 /** Границы совпадают с разумными значениями для расчёта нормы калорий. */
 const LIMITS = {
@@ -58,6 +62,7 @@ export class SurveyComponent {
 
   protected readonly limits = LIMITS;
   protected readonly genderOptions = GENDER_OPTIONS;
+  protected readonly physicalActivityOptions = PHYSICAL_ACTIVITY_OPTIONS;
 
   public surveyModel = signal({
     firstName: this.user?.firstName ?? '',
@@ -65,12 +70,14 @@ export class SurveyComponent {
     age: this.user?.age ?? null,
     height: this.user?.height ?? null,
     weight: this.user?.weight ?? null,
+    physicalActivityFactor: this.user?.physicalActivityFactor ?? DEFAULT_PHYSICAL_ACTIVITY_FACTOR,
   });
 
   protected readonly surveyForm = form(this.surveyModel, (schemePath) => {
     required(schemePath.gender, { message: 'Это обязательное поле' });
     required(schemePath.age, { message: 'Это обязательное поле' });
     required(schemePath.firstName, { message: 'Это обязательное поле' });
+    required(schemePath.physicalActivityFactor, { message: 'Выберите уровень активности' });
     min(schemePath.age, LIMITS.age.min);
     max(schemePath.age, LIMITS.age.max);
     min(schemePath.height, LIMITS.height.min);

@@ -7,10 +7,14 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
-import { form, FormField, max, min } from '@angular/forms/signals';
+import { form, FormField, max, min, required } from '@angular/forms/signals';
 import { MainShellComponent } from '../../../shared/components/main-shell/main-shell.component';
 import { BaseProfileComponent } from '../../components/base-profile/base-profile.component';
 import { GENDER_OPTIONS } from '../../models/gender-options';
+import {
+  DEFAULT_PHYSICAL_ACTIVITY_FACTOR,
+  PHYSICAL_ACTIVITY_OPTIONS,
+} from '../../models/physical-activity-options';
 import { UserStore } from '../../../auth/services/user.store';
 import { Gender, ProfileRequest } from '../../models/request.model';
 import { ProfileService } from '../../services/profile.service';
@@ -37,6 +41,7 @@ export class ProfileComponent {
   private readonly messageService = inject(MessageService);
   
   public readonly genderOptions = GENDER_OPTIONS;
+  public readonly physicalActivityOptions = PHYSICAL_ACTIVITY_OPTIONS;
 
   private readonly user = this.userStore.user();
 
@@ -50,9 +55,11 @@ export class ProfileComponent {
     age: this.user?.age || 0,
     weight: this.user?.weight || 0,
     height: this.user?.height || 0,
+    physicalActivityFactor: this.user?.physicalActivityFactor ?? DEFAULT_PHYSICAL_ACTIVITY_FACTOR,
   });
 
   public readonly profileForm = form(this.profileModel, (path) => {
+    required(path.physicalActivityFactor, { message: 'Выберите уровень активности' });
     min(path.age, 1);
     max(path.age, 120);
     min(path.height, 1);
@@ -73,6 +80,7 @@ export class ProfileComponent {
       ...model,
       dateOfBirth: format(model.dateOfBirth, 'yyyy-MM-dd'),
     };
+    this.loading.set(true);
     this.profileService
           .saveProfile(request)
           .pipe(finalize(() => this.loading.set(false)))

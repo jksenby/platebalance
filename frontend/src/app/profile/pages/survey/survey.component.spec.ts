@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
+import { provideHttpClient } from '@angular/common/http';
 
 import { SurveyComponent } from './survey.component';
 
@@ -12,7 +13,7 @@ describe('SurveyComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SurveyComponent],
-      providers: [provideRouter([])]
+      providers: [provideRouter([]), provideHttpClient()]
     })
     .compileComponents();
 
@@ -50,6 +51,7 @@ describe('SurveyComponent', () => {
     spyOn(TestBed.inject(Router), 'navigate').and.resolveTo(true);
     const values = {
       firstName: 'Alex', gender: 'male' as const, age: 28, height: 178.5, weight: 72.5,
+      physicalActivityFactor: 1.55,
     };
     component.surveyModel.set(values);
     await fixture.whenStable();
@@ -60,5 +62,18 @@ describe('SurveyComponent', () => {
 
     expect(event.defaultPrevented).toBeTrue();
     expect(save).toHaveBeenCalledOnceWith(values);
+  });
+
+  it('updates activity through the PrimeNG select', async () => {
+    const control = fixture.nativeElement.querySelectorAll('p-select')[1] as HTMLElement;
+    control.click();
+    await fixture.whenStable();
+    const option = Array.from(fixture.nativeElement.querySelectorAll('[role="option"]'))
+      .find((item) => (item as HTMLElement).textContent?.includes('Средняя')) as HTMLElement;
+    expect(option).toBeTruthy();
+    option.click();
+    await fixture.whenStable();
+
+    expect(component.surveyModel().physicalActivityFactor).toBe(1.55);
   });
 });

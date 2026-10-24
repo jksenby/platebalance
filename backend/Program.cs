@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using PlateBalance.Api.Models;
+﻿using PlateBalance.Api.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +25,13 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers(options =>
 {
     options.Conventions.Add(new ApiPrefixConvention("api"));
+})
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(
+        new JsonStringEnumConverter<Gender>(JsonNamingPolicy.CamelCase));
 });
+
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<ApplicationDbContext>(

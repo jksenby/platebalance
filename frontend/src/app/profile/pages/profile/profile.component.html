@@ -73,6 +73,19 @@
               </label>
             </div>
           </p-fieldset>
+
+          <p-fieldset>
+            <ng-template #legend>
+              <span class="legend">
+                <i class="pi pi-bolt icon"></i> Физическая активность
+              </span>
+            </ng-template>
+            <p class="description">Выберите уровень, который соответствует вашей обычной неделе.</p>
+            <label class="field">
+              <span class="label">Уровень активности</span>
+              <p-select fluid [formField]="profileForm.physicalActivityFactor" [options]="physicalActivityOptions" optionLabel="label" optionValue="value" placeholder="Выберите активность" />
+            </label>
+          </p-fieldset>
         </div>
 
         <footer class="footer">
